@@ -1,0 +1,24 @@
+{
+  "name": "call-it-magic",
+  "version": "0.0.1",
+  "description": "The world's first take on NMDC protocol in JavaScript.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodejs src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "command-line-args": "^3.0.1",
+    "mkdirp": "^0.5.1",
+    "parse-filepath": "^1.0.1",
+    "recursive-readdir": "^2.1.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-js-beautify": "^0.1.4",
+    "jslint": "^0.10.3"
+  }
+}
