@@ -13,9 +13,8 @@ console.log(options);
 
 function magic() {
 
-        var HOST = '172.16.71.71';
-        var PORT = 411;
         var client = new net.Socket();
+        var results = [];
 
         this.state = {
                 "connected": false,
@@ -43,7 +42,8 @@ function magic() {
                         var responseContainsLock = data.includes('$Lock'),
                                 responseContainsHello = data.includes('$Hello'),
                                 responseContainsNickList = data.includes('$HubName'),
-                                responseContainsSearchResults = data.includes('$SR');
+                                responseContainsSearchResults = data.includes('$SR'),
+                                responseContainsConnectToMe = data.includes('$ConnectToMe');
 
                         if (responseContainsLock) {
                                 client.write("$Supports NoHello |");
@@ -59,11 +59,38 @@ function magic() {
 
                         if (responseContainsNickList) {
                                 console.log("Magic: Logged In");
-                                setTimeout(function() { this.search("Porcupine Tree") }.bind(this), 1000);
+                                setTimeout(function() {
+                                        this.search("Blackest Eyes");
+                                }.bind(this), 1000);
                         }
 
                         if (responseContainsSearchResults) {
-                                console.log(data.split('$SR'));
+                                results.push(data.split('$SR ').filter(function(item) {
+                                        if (item.split('\x05').length == 3)
+                                                return true;
+                                        else
+                                                return false;
+                                }).map(function(item) {
+                                        item = item.split('\x05');
+                                        var row = new Object();
+                                        row.user = item[0].split('\\')[0].split(' ')[0];
+                                        row.filename = item[0].split('\\').pop();
+                                        row.size = parseInt(item[1].split(' ')[0]);
+                                        row.slots = parseInt(item[1].split(' ').pop().split('/')[0]);
+                                        row.address = item[0].slice(item[0].indexOf(' ') + 1);
+                                        return row;
+                                }));
+                                results.sort(function(a, b) {
+                                        if (b.slots > a.slots)
+                                                return 1;
+                                        else
+                                                return -1;
+                                });
+                                console.log("hello", results[0][0]);
+                        }
+
+                        if (responseContainsConnectToMe) {
+                                // console.log('Connection Acknowledged: ', data);
                         }
                         return false;
                 }.bind(this));
@@ -72,16 +99,20 @@ function magic() {
                         console.log('Connection closed');
                 });
 
-        }
+        };
 
         this.search = function(query) {
-                var search_string = "$Search Hub:" + options.params[0] + " F?F?0?1?" + query.replace(" ","$") + "|";
+                var search_string = "$Search Hub:" + options.params[0] + " F?F?0?1?" + query.replace(" ", "$") + "|";
                 client.write(search_string);
+        };
+
+        this.download = function(index) {
+
         }
 
         this.disconnect = function() {
 
-        }
+        };
 }
 
 var dc = new magic();
@@ -108,3 +139,5 @@ function lock2key(lock) {
         }
         return key;
 }
+
+//https://www.youtube.com/watch?v=z9BL59uiAz8&list=PLBKadB95sF44vjNzNABcYoF_7ae6lAgJM
