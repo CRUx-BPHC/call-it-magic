@@ -5,15 +5,19 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodejs src/index.js"
+    "start": "nodejs src/app.js",
+    "socket": "nodejs src/web/server/socket.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "command-line-args": "^3.0.1",
+    "express": "^4.14.0",
     "mkdirp": "^0.5.1",
     "parse-filepath": "^1.0.1",
-    "recursive-readdir": "^2.1.0"
+    "recursive-readdir": "^2.1.0",
+    "socket.io": "^1.5.1"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

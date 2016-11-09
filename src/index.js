@@ -1,5 +1,6 @@
 var net = require('net');
 var log = require('./log');
+var webui = require('./web/server/socket.js');
 var commandLineArgs = require('command-line-args');
 var options = commandLineArgs([{
         name: 'params',
@@ -11,7 +12,7 @@ var options = commandLineArgs([{
 
 console.log(options);
 
-function magic() {
+var magic = function() {
 
         var client = new net.Socket();
         var results = [];
@@ -35,15 +36,15 @@ function magic() {
                 client.on('data', function(data) {
 
                         data = data.toString();
-
+                        //webui.emit("live",data);
+                        //console.log(data);
                         if (this.state.logging)
                                 log(data);
 
                         var responseContainsLock = data.includes('$Lock'),
                                 responseContainsHello = data.includes('$Hello'),
                                 responseContainsNickList = data.includes('$HubName'),
-                                responseContainsSearchResults = data.includes('$SR'),
-                                responseContainsConnectToMe = data.includes('$ConnectToMe');
+                                responseContainsSearchResults = data.includes('$SR');
 
                         if (responseContainsLock) {
                                 client.write("$Supports NoHello |");
@@ -58,14 +59,13 @@ function magic() {
                         }
 
                         if (responseContainsNickList) {
+
                                 console.log("Magic: Logged In");
-                                setTimeout(function() {
-                                        this.search("Blackest Eyes");
-                                }.bind(this), 1000);
+                                
                         }
 
                         if (responseContainsSearchResults) {
-                                results.push(data.split('$SR ').filter(function(item) {
+                                results = data.split('$SR ').filter(function(item) {
                                         if (item.split('\x05').length == 3)
                                                 return true;
                                         else
@@ -79,18 +79,16 @@ function magic() {
                                         row.slots = parseInt(item[1].split(' ').pop().split('/')[0]);
                                         row.address = item[0].slice(item[0].indexOf(' ') + 1);
                                         return row;
-                                }));
+                                });
                                 results.sort(function(a, b) {
                                         if (b.slots > a.slots)
                                                 return 1;
                                         else
                                                 return -1;
                                 });
-                                console.log("hello", results[0][0]);
-                        }
-
-                        if (responseContainsConnectToMe) {
-                                // console.log('Connection Acknowledged: ', data);
+                                console.log(results);
+                                webui.emit('live',results);
+                                return results;
                         }
                         return false;
                 }.bind(this));
@@ -115,10 +113,6 @@ function magic() {
         };
 }
 
-var dc = new magic();
-dc.connect('172.16.71.71', 411);
-
-
 /*
   Encoding lock parameter sent by Hub 
   to a pass key for the current session
@@ -140,4 +134,4 @@ function lock2key(lock) {
         return key;
 }
 
-//https://www.youtube.com/watch?v=z9BL59uiAz8&list=PLBKadB95sF44vjNzNABcYoF_7ae6lAgJM
+module.exports = magic;
