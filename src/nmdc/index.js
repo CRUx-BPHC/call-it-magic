@@ -1,6 +1,6 @@
 var net = require('net');
-var log = require('./log');
-var webui = require('./web/server/socket.js');
+var log = require('../additional/log');
+var webui = require('../web/server/socket.js');
 var commandLineArgs = require('command-line-args');
 var options = commandLineArgs([{
         name: 'params',
