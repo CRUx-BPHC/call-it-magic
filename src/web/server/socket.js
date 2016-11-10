@@ -7,12 +7,12 @@
 // 	};
 // io.on("connection", handleClient);
 
-module.exports = function(){
-	var io = require('./server');
-	var emit = function(title,data){
-		return io.sockets.emit(title,data);
-	}
-	return {
-		emit: emit,
-	}
+module.exports = function () {
+  var io = require('./server');
+  var emit = function (title, data) {
+    return io.sockets.emit(title, data);
+  };
+  return {
+    emit: emit,
+  };
 }();
