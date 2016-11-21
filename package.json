@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodejs src/app.js",
-    "socket": "nodejs src/web/server/socket.js"
+    "socket": "nodejs src/web/server/socket.js",
+    "pain": "python3 src/native/main.py"
   },
   "author": "",
   "license": "ISC",

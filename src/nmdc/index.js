@@ -20,7 +20,7 @@ var magic = function() {
         this.state = {
                 "connected": false,
                 "hub address": null,
-                "logging": false
+                "logging": true
         };
 
         this.connect = function(HOST, PORT) {
