@@ -3,11 +3,11 @@ var log = require('../additional/log');
 var webui = require('../web/server/socket.js');
 var commandLineArgs = require('command-line-args');
 var options = commandLineArgs([{
-        name: 'params',
-        alias: 'p',
-        type: String,
-        multiple: true,
-        defaultOption: true
+  name: 'params',
+  alias: 'p',
+  type: String,
+  multiple: true,
+  defaultOption: true
 }]);
 
 console.log(options);
@@ -119,19 +119,19 @@ var magic = function() {
 */
 
 function nibbleswap(bits) {
-        return ((bits << 4) & 240) | ((bits >>> 4) & 15);
+  return ((bits << 4) & 240) | ((bits >>> 4) & 15);
 }
 
 function chr(b) {
-        return (("..0.5.36.96.124.126.").indexOf("." + b + ".") > 0) ? "/%DCN" + (0).toPrecision(4 - b.toString().length).substr(2) + b + "%/" : String.fromCharCode(b);
+  return (("..0.5.36.96.124.126.").indexOf("." + b + ".") > 0) ? "/%DCN" + (0).toPrecision(4 - b.toString().length).substr(2) + b + "%/" : String.fromCharCode(b);
 }
 
 function lock2key(lock) {
-        var key = chr(nibbleswap(lock.charCodeAt(0) ^ lock.charCodeAt(-1) ^ lock.charCodeAt(-2) ^ 5));
-        for (var i = 1; i < lock.length; i++) {
-                key += chr(nibbleswap(lock.charCodeAt(i) ^ lock.charCodeAt(i - 1)));
-        }
-        return key;
+  var key = chr(nibbleswap(lock.charCodeAt(0) ^ lock.charCodeAt(-1) ^ lock.charCodeAt(-2) ^ 5));
+  for (var i = 1; i < lock.length; i++) {
+    key += chr(nibbleswap(lock.charCodeAt(i) ^ lock.charCodeAt(i - 1)));
+  }
+  return key;
 }
 
 module.exports = magic;
