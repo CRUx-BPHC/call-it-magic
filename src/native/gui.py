@@ -16,7 +16,7 @@ class MainWindow(QWidget):
 		
 		self.setGeometry(QDesktopWidget().availableGeometry())        
 		self.setWindowTitle('Call it Pain')    
-		box = QVBoxLayout();
+		box = QVBoxLayout()
 		form = QFormLayout()
 		primarySearch = QLineEdit()
 		log = QTextEdit()
@@ -46,39 +46,20 @@ class MainWindow(QWidget):
 		box.addWidget(log)
 		self.setLayout(box)
 		self.center()
-		print("Hiiiii")
 		self.show()
-		print("Reveal")
 
-	
-	def center(self):
-		
+	def center(self):		
 		qr = self.frameGeometry()
 		cp = QDesktopWidget().availableGeometry().center()
 		print(QDesktopWidget().availableGeometry())
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
 
-
 class GUI():
-	def __init__(self): 
-		print("Init")
-		# QThread.__init__(self)
-	def run(self):
+	# def __init__(self): 
+	# 	print("Init")
+	# 	print("Die bitch")
+	def start(self):
 		app = QApplication(sys.argv)
-		print("Started GUI")
 		ex = MainWindow()
-		# sys.exit(app.exec_())
-		ex.initUI()
-		print("Bye bye")
-
-# gui=GUI()
-# # def start():
-# gui.run()
-
-app = QApplication(sys.argv)
-print("Started GUI")
-ex = MainWindow()
-# sys.exit(app.exec_())
-
-print("Bye bye")
+		sys.exit(app.exec_())
