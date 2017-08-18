@@ -1,5 +1,5 @@
 import gui
-import sock
+# import sock
 window=gui.GUI()
 window.start()
 # inter.start()

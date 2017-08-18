@@ -1,8 +1,8 @@
 import sys, threading
-import http.client
+# import http.client
 import PyQt5.QtCore
 from PyQt5.QtCore import QThread
-from socketIO_client import SocketIO, LoggingNamespace
+# from socketIO_client import SocketIO, LoggingNamespace
 from PyQt5.QtWidgets import *
 
 class MainWindow(QWidget):
@@ -23,30 +23,30 @@ class MainWindow(QWidget):
 		def on_aaa_response(*args):
 			print('on_aaa_response', args)
 			
-		socketIO = SocketIO('localhost', 8080, LoggingNamespace)
-		socketIO.on('live', on_aaa_response)
+		# socketIO = SocketIO('localhost', 8080, LoggingNamespace)
+		# socketIO.on('live', on_aaa_response)
 		
 
-		def search():
-			text = primarySearch.text()
-			BODY = "{\"string\":\""+text+"\"}"
-			headers = {"Content-type": "application/json","Accept": "text/plain"}
-			print(BODY)
-			conn = http.client.HTTPConnection("localhost", 8080)
-			conn.request("POST", "/search", BODY, headers)
-			response = conn.getresponse()
-			socketIO.wait(seconds=5)
-			log.append(response.read().decode('utf-8'));
-			print("Hello",response.status, response.read())
-			conn.close()
+		# def search():
+		# 	text = primarySearch.text()
+		# 	BODY = "{\"string\":\""+text+"\"}"
+		# 	headers = {"Content-type": "application/json","Accept": "text/plain"}
+		# 	print(BODY)
+		# 	conn = http.client.HTTPConnection("localhost", 8080)
+		# 	conn.request("POST", "/search", BODY, headers)
+		# 	response = conn.getresponse()
+		# 	socketIO.wait(seconds=5)
+		# 	log.append(response.read().decode('utf-8'));
+		# 	print("Hello",response.status, response.read())
+		# 	conn.close()
 
-		primarySearch.returnPressed.connect(search)
-		form.addRow("Search:", primarySearch)
-		box.addLayout(form)
-		box.addWidget(log)
-		self.setLayout(box)
-		self.center()
-		self.show()
+		# primarySearch.returnPressed.connect(search)
+		# form.addRow("Search:", primarySearch)
+		# box.addLayout(form)
+		# box.addWidget(log)
+		# self.setLayout(box)
+		# self.center()
+		# self.show()
 
 	def center(self):		
 		qr = self.frameGeometry()
